@@ -45,6 +45,7 @@ class PythonPredictor:
         colors = [[np.random.randint(0, 255) for _ in range(3)] for _ in names]
 
         # Run inference
+        objects = ["head", "helmet", "person"]
         img = torch.zeros((1, 3, imgsz, imgsz), device=device)  # init img
         _ = model(img) if device.type != 'cpu' else None  # run once
         for path, img, im0s, vid_cap in dataset:
@@ -57,30 +58,9 @@ class PythonPredictor:
 
             # Apply NMS
             pred = non_max_suppression(pred, 0.25, 0.45, classes=None, agnostic=False)
-            pred = [p.tolist() for p in pred]
-            # result = OrderedDict()
-            # for i, t in enumerate(pred):
-            #     result[i] = {'class': t[5], 'confidence': t[4]}
-            # result = json.dumps(result, indent="\t")
-            # return result
-            return pred
-
-            # det = pred[0]
-
-            # p, s, im0, frame = Path(path), '', im0s, getattr(dataset, 'frame', 0)
-
-            # if len(det):
-            #     # Rescale boxes from img_size to im0 size
-            #     det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
-
-            #     for *xyxy, conf, cls in reversed(det):
-            #         label = f'{names[int(cls)]} {conf:.2f}'
-            #         plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-
-            # img = Image.fromarray(im0)
-
-            # im_file = io.BytesIO()
-            # img.save(im_file, format="PNG")
-            # im_bytes = base64.b64encode(im_file.getvalue()).decode("utf-8") 
-
-            # return im_bytes
+            pred = p.tolist() for p in pred
+            result = OrderedDict()
+            for i, p in enumerate(pred):
+                result[i] = {'class': objects[p[5]], 'confidence': p[4]}
+            result = json.dumps(result, indent="\t")
+            return result
