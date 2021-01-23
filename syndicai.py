@@ -40,10 +40,6 @@ class PythonPredictor:
 
         dataset = LoadImages('./image.png', img_size=imgsz)
 
-        # Get names and colors
-        names = model.module.names if hasattr(model, 'module') else model.names
-        colors = [[np.random.randint(0, 255) for _ in range(3)] for _ in names]
-
         # Run inference
         objects = ["head", "helmet", "person"]
         img = torch.zeros((1, 3, imgsz, imgsz), device=device)  # init img
