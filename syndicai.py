@@ -58,7 +58,8 @@ class PythonPredictor:
 
             # Apply NMS
             pred = non_max_suppression(pred, 0.25, 0.45, classes=None, agnostic=False)
-            pred = p.tolist() for p in pred
+            pred = [p.tolist() for p in pred]
+            pred = pred[0]
             result = OrderedDict()
             for i, p in enumerate(pred):
                 result[i] = {'class': objects[p[5]], 'confidence': p[4]}
