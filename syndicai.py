@@ -58,11 +58,12 @@ class PythonPredictor:
             # Apply NMS
             pred = non_max_suppression(pred, 0.25, 0.45, classes=None, agnostic=False)
             pred = [p.tolist() for p in pred]
-            result = OrderedDict()
-            for i, t in enumerate(pred):
-                result[i] = {'class': t[5], 'confidence': t[4]}
-            result = json.dumps(result, indent="\t")
-            return result
+            # result = OrderedDict()
+            # for i, t in enumerate(pred):
+            #     result[i] = {'class': t[5], 'confidence': t[4]}
+            # result = json.dumps(result, indent="\t")
+            # return result
+            return pred
 
             # det = pred[0]
 
