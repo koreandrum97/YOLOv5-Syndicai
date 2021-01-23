@@ -62,6 +62,6 @@ class PythonPredictor:
             pred = pred[0]
             result = OrderedDict()
             for i, p in enumerate(pred):
-                result[i] = {'class': objects[p[5]], 'confidence': p[4]}
+                result[i] = {'class': objects[int(p[5])], 'confidence': p[4]}
             result = json.dumps(result, indent="\t")
             return result
